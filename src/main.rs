@@ -2,7 +2,7 @@ use std::time::{Duration, SystemTime};
 
 use anyhow::Ok;
 
-fn main() -> Result<(), anyhow::Error> {
+fn main_loop() -> Result<(), anyhow::Error> {
     let now = SystemTime::now();
 
     let n = 80;
@@ -22,8 +22,14 @@ fn main() -> Result<(), anyhow::Error> {
         elapsed < fps_60,
         percentage(elapsed, fps_60)
     );
-    println!("{} {}", elapsed.as_nanos(), fps_60.as_nanos());
     return Ok(());
+}
+fn main() -> Result<(), anyhow::Error> {
+    let mut count = 0;
+    loop {
+        main_loop()?;
+        count += 1;
+    }
 }
 
 fn do_cube(x: u32, y: u32, z: u32) -> Result<(), anyhow::Error> {
